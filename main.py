@@ -7,8 +7,8 @@ wymiary_okna = (720, 720)
 obraz = pygame.display.set_mode(wymiary_okna)
 pygame.display.set_caption("H2048")
 
-pole = [[2, 0, 0], [0, 2, 0], [4, 0, 0]]
-
+# pole = [[2, 0, 0], [0, 2, 0], [4, 0, 0]]
+pole = [[0,0,0],[0,0,0],[0,0,0]]
 wymiay_pola_x = 3
 wymiay_pola_y = 3
 
@@ -58,7 +58,7 @@ def ruch_lewo():
                     pole[i][j] = 0
                     pole[i - 1][j] = 2 * wartosc
                     zmiana = True
-                if pole[i][j] != 0 and pole[i - 1][j] == 0:
+                elif pole[i][j] != 0 and pole[i - 1][j] == 0:
                     wartosc = pole[i][j]
                     pole[i][j] = 0
                     pole[i - 1][j] = wartosc
@@ -81,7 +81,7 @@ def ruch_prawo():
                     pole[i+1][j] = 2*wartosc
                     pole[i][j] = 0
                     zmiana = True
-                if pole[i][j] != 0 and pole[i+1][j] == 0:
+                elif pole[i][j] != 0 and pole[i+1][j] == 0:
                     wartosc = pole[i][j]
                     pole[i][j] = 0
                     pole[i+1][j] = wartosc
@@ -105,7 +105,7 @@ def ruch_gora():
                     pole[i][j-1] = 2*wartosc
                     pole[i][j] = 0
                     zmiana = True
-                if pole[i][j] != 0 and pole[i][j-1] == 0:
+                elif pole[i][j] != 0 and pole[i][j-1] == 0:
                     wartosc = pole[i][j]
                     pole[i][j] = 0
                     pole[i][j-1] = wartosc
@@ -127,20 +127,50 @@ def ruch_dol():
                     pole[i][j+1] = 2*wartosc
                     pole[i][j] = 0
                     zmiana = True
-                if pole[i][j] != 0 and pole[i][j+1] == 0:
+                elif pole[i][j] != 0 and pole[i][j+1] == 0:
                     wartosc = pole[i][j]
                     pole[i][j] = 0
                     pole[i][j+1] = wartosc
                     zmiana = True
 
+def wynik():
+   koniec = True
+   while koniec:
+       obraz.fill((100,100,100))
+
+       fontObj = pygame.font.SysFont("Arial", 40)
+       tekst1 = fontObj.render("Przegrana", True, (255,0,0))
+       tekst11 = tekst1.get_rect(center = (360,250))
+       obraz.blit(tekst1, tekst11)
+
+       przycisk = pygame.Rect(200,400,400,100)
+       pygame.draw.rect(obraz,(255,255,255),przycisk)
+
+       tekst2 = fontObj.render("Zagraj jeszcze raz", True, (0,255,0))
+       tekst3 = tekst2.get_rect(center=przycisk.center)
+       obraz.blit(tekst2,tekst3)
+
+       pygame.display.flip()
+
+       for event in pygame.event.get():
+           if event.type == pygame.QUIT:
+               pygame.quit()
+           if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+               pygame.quit()
+           if event.type == pygame.MOUSEBUTTONDOWN:
+               if przycisk.collidepoint(event.pos):
+                   reset()
+                   koniec = False
 
 
-
-
-
+def reset():
+    global pole
+    pole = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    wstaw()
 
 
 dziala = True
+wstaw()
 while dziala:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -152,18 +182,23 @@ while dziala:
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
             ruch_lewo()
-            wstaw()
+
+            if not wstaw():
+                wynik()
         if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
             ruch_prawo()
-            wstaw()
+            if not wstaw():
+                wynik()
         if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
             ruch_gora()
-            wstaw()
+            if not wstaw():
+                wynik()
         if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
             ruch_dol()
-            wstaw()
+            if not wstaw():
+                wynik()
 
 
-        rysuj()
-        pygame.display.flip()
+    rysuj()
+    pygame.display.flip()
 pygame.quit()
