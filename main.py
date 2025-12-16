@@ -1,4 +1,7 @@
+import math
 import random
+import control
+
 
 import pygame
 
@@ -20,7 +23,19 @@ def rysuj():
             x = 80 + i * 200
             y = 80 + j * 200
             komorka = pole[i][j]
-            pygame.draw.rect(obraz, (1, 255, 1), pygame.Rect(x, y, 160, 160))
+
+            if komorka == 0:
+                k = (230, 255, 230)
+            else:
+                a = math.log(komorka, 2)
+                r = 255 - 17*a
+                g = 255
+                if r == 0:
+                    g = int(g/2)
+                b = 255 - 17 * a
+                k = (r,g,b)
+
+            pygame.draw.rect(obraz, k, pygame.Rect(x, y, 160, 160))
             tekst = pygame.font.SysFont('Arial', 80).render(str(komorka), True, (0, 0, 0))
             tekst2 = tekst.get_rect(center=(x + 160 / 2, y + 160 / 2))
             obraz.blit(tekst, tekst2)
@@ -167,6 +182,14 @@ def reset():
     global pole
     pole = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
     wstaw()
+
+# def zmien_kolor():
+#    for i in range(wymiay_pola_x):
+#         for j in range(wymiay_pola_y):
+#             if pole[i][j] == 0:
+#                 tekst = rysuj()
+#
+#
 
 
 dziala = True
