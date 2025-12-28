@@ -1,7 +1,5 @@
 import math
 import random
-import control
-
 
 import pygame
 
