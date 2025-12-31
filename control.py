@@ -47,9 +47,17 @@ while True:
 
         if key == ord('z'):
             if len(wartosci) == dlugosc:
+
+                delty = [0,0]
+                for i in range(1, len(wartosci)):
+                    dx = wartosci[i][0] - wartosci[i-1][0]
+                    dy = wartosci[i][1] - wartosci[i-1][1]
+                    delty.extend([dx, dy])
+
+
                 with open('wartosci.csv', 'a', newline='') as f:
                     csvwriter = csv.writer(f)
-                    wiersz = [kierunek]+[element for para in wartosci for element in para]
+                    wiersz = [kierunek]+delty
                     csvwriter.writerow(wiersz)
                 print(f"ZAPISANO: {kierunek}")
 

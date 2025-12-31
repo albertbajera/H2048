@@ -12,6 +12,7 @@ wysokosc = cam.get(cv2.CAP_PROP_FRAME_HEIGHT)
 nr_klatki = 0
 wartosci = []
 dlugosc = 20
+coldown = 0
 
 
 model = tf.keras.models.load_model('model.h5')
@@ -43,15 +44,22 @@ while True:
         nos = twarz.landmark[1] #1 to pkt na nosie
 
 
-        wartosci.append(nos.x)
-        wartosci.append(nos.y)
+        wartosci.append([nos.x,nos.y])
 
-        if len(wartosci)>dlugosc*2:
-            wartosci.pop(0)
+
+        if len(wartosci)>dlugosc:
             wartosci.pop(0)
 
-        if len(wartosci) == dlugosc*2:
-            wejscie = np.array([wartosci])
+        if len(wartosci) == dlugosc and coldown == 0:
+
+            delty = [0.0,0.0]
+            for i in range (1,len(wartosci)):
+                dx = wartosci[i][0] - wartosci[i-1][0]
+                dy = wartosci[i][1] - wartosci[i-1][1]
+                delty.extend([dx,dy])
+
+
+            wejscie = np.array([delty])
             predykcja = model.predict(wejscie,verbose=0)
             idx = np.argmax(predykcja)
             pewnosc = predykcja[0][idx]
@@ -69,9 +77,11 @@ while True:
                     case "prawo":
                         pyautogui.press('right')
 
+                coldown = 20
                 wartosci = []
 
-
+        if coldown > 0:
+            coldown -= 1
 
         cv2.circle(klatka, (int(nos.x*szerokosc),int(nos.y*wysokosc)), 5, (255, 0, 0), 2)
         cv2.imshow('Player',klatka)
