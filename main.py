@@ -13,13 +13,24 @@ pole = [[0,0,0],[0,0,0],[0,0,0]]
 wymiay_pola_x = 3
 wymiay_pola_y = 3
 
+wynikk = 0
 
 def rysuj():
     obraz.fill((255, 255, 255))
+
+    prostokott = pygame.Rect(200, 40, 320, 40)
+    pygame.draw.rect(obraz,(50,50,50), prostokott)
+
+    czcionka = pygame.font.SysFont('Arial', 20,bold=True)
+    tekst = czcionka.render(f"Twoj Wynik:{wynikk} ", True, (255, 255, 0))
+    tekst2 = tekst.get_rect(center=prostokott.center)
+    obraz.blit(tekst, tekst2)
+
+
     for i in range(wymiay_pola_x):
         for j in range(wymiay_pola_y):
             x = 80 + i * 200
-            y = 80 + j * 200
+            y = 120 + j * 200
             komorka = pole[i][j]
 
             if komorka == 0:
@@ -60,6 +71,7 @@ def ruch_lewo():
     global pole
 
     zmiana = True
+
     while zmiana:  # powtarzaj aż nic się nie zmienia
         zmiana = False
         for i in range(1, wymiay_pola_x):
@@ -176,9 +188,11 @@ def wynik():
                    koniec = False
 
 
+
 def reset():
     global pole
     pole = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    wynikk = 0
     wstaw()
 
 # def zmien_kolor():
@@ -194,6 +208,7 @@ dziala = True
 wstaw()
 while dziala:
     for event in pygame.event.get():
+
         if event.type == pygame.QUIT:
             pygame.quit()
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -203,21 +218,29 @@ while dziala:
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
             ruch_lewo()
-
+            wynikk += 1
             if not wstaw():
                 wynik()
+                wynikk = 0
         if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
             ruch_prawo()
+            wynikk += 1
             if not wstaw():
                 wynik()
+                wynikk = 0
         if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
             ruch_gora()
+            wynikk += 1
             if not wstaw():
                 wynik()
+                wynikk = 0
         if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
             ruch_dol()
+            wynikk += 1
             if not wstaw():
                 wynik()
+                wynikk = 0
+
 
 
     rysuj()
