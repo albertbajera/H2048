@@ -1,7 +1,18 @@
 import math
 import random
-
 import pygame
+
+
+def wczytaj_rekord():
+        with open("rekord.txt", "r") as f:
+            return int(f.read())
+
+def zapisz_rekord(nowy_rekord):
+    with open("rekord.txt", "w") as f:
+        f.write(str(nowy_rekord))
+
+
+rekord = wczytaj_rekord()
 
 pygame.init()
 wymiary_okna = (720, 720)
@@ -15,14 +26,16 @@ wymiay_pola_y = 3
 
 wynikk = 0
 
+
 def rysuj():
+
     obraz.fill((255, 255, 255))
 
-    prostokott = pygame.Rect(200, 40, 320, 40)
+    prostokott = pygame.Rect(200, 40, 400, 40)
     pygame.draw.rect(obraz,(50,50,50), prostokott)
 
     czcionka = pygame.font.SysFont('Arial', 20,bold=True)
-    tekst = czcionka.render(f"Twoj Wynik:{wynikk} ", True, (255, 255, 0))
+    tekst = czcionka.render(f"Twoj Wynik:{wynikk}    Twoj rekord:{rekord} ", True, (255, 255, 0))
     tekst2 = tekst.get_rect(center=prostokott.center)
     obraz.blit(tekst, tekst2)
 
@@ -61,7 +74,11 @@ def wstaw():
 
     if puste:
             wiersz, kolumna = random.choice(puste)
-            pole[wiersz][kolumna] = 2 #dodaj inne liczby
+            lista_do_watawienia = [2, 4]
+            prawdopodobioenstwo = [.8, .2]
+            liczba = random.choices(lista_do_watawienia, weights=prawdopodobioenstwo)
+            pole[wiersz][kolumna] = liczba[0] #dodaj inne liczby
+
             return True
     else:
         print("Przegrana")
@@ -219,24 +236,37 @@ while dziala:
         if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
             ruch_lewo()
             wynikk += 1
+            if wynikk > rekord:
+                rekord = wynikk
+                zapisz_rekord(rekord)
             if not wstaw():
                 wynik()
                 wynikk = 0
+
         if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
             ruch_prawo()
             wynikk += 1
+            if wynikk > rekord:
+                rekord = wynikk
+                zapisz_rekord(rekord)
             if not wstaw():
                 wynik()
                 wynikk = 0
         if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
             ruch_gora()
             wynikk += 1
+            if wynikk > rekord:
+                rekord = wynikk
+                zapisz_rekord(rekord)
             if not wstaw():
                 wynik()
                 wynikk = 0
         if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
             ruch_dol()
             wynikk += 1
+            if wynikk > rekord:
+                rekord = wynikk
+                zapisz_rekord(rekord)
             if not wstaw():
                 wynik()
                 wynikk = 0

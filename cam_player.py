@@ -21,6 +21,10 @@ klasy = ['dol','gora','lewo','prawo']
 siatka = mediapipe.solutions.face_mesh
 sledzenie = siatka.FaceMesh(max_num_faces=1,min_detection_confidence=0.5, min_tracking_confidence=0.5)
 
+ostatni_ruch_tekst = " "
+wyswietlanie_licznik = 0
+
+
 while True:
 
     poprawne,klatka = cam.read()
@@ -66,6 +70,8 @@ while True:
 
             if pewnosc >0.8:
                 kierunek = klasy[idx]
+                ostatni_ruch_tekst = kierunek
+                wyswietlanie_licznik = 20
                 print(f"KIERUNEK: {kierunek}, PEWNOSC: {pewnosc}")
                 match kierunek:
                     case "dol":
@@ -84,6 +90,9 @@ while True:
             coldown -= 1
 
         cv2.circle(klatka, (int(nos.x*szerokosc),int(nos.y*wysokosc)), 5, (255, 0, 0), 2)
+        if wyswietlanie_licznik > 0:
+            cv2.putText(klatka, f"Wykonano ruch:{ostatni_ruch_tekst}", (10, 700), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
+            wyswietlanie_licznik -= 1
         cv2.imshow('Player',klatka)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
