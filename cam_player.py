@@ -93,7 +93,8 @@ while True:
         if wyswietlanie_licznik > 0:
             cv2.putText(klatka, f"Wykonano ruch:{ostatni_ruch_tekst}", (10, 700), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
             wyswietlanie_licznik -= 1
-        cv2.imshow('Player',klatka)
+        klatka_mala = cv2.resize(klatka,(480,320))
+        cv2.imshow('Player',klatka_mala)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 

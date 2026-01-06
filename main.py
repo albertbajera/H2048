@@ -18,7 +18,6 @@ def zapisz_rekord(rozmiar, nowy_rekord):
         f.write(str(nowy_rekord))
 
 
-
 pygame.init()
 wymiary_okna = (720, 720)
 obraz = pygame.display.set_mode(wymiary_okna)
