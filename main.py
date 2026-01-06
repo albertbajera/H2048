@@ -20,15 +20,36 @@ obraz = pygame.display.set_mode(wymiary_okna)
 pygame.display.set_caption("H2048")
 
 # pole = [[2, 0, 0], [0, 2, 0], [4, 0, 0]]
-pole = [[0,0,0],[0,0,0],[0,0,0]]
-wymiay_pola_x = 3
-wymiay_pola_y = 3
+rozmiar = 3
+if rozmiar == 3:
+    pole = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    wymiay_pola_x = 3
+    wymiay_pola_y = 3
+    value_size = 160
+    odstep = 200
+    margin_x = 80
+elif rozmiar == 4:
+    pole = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0],[0, 0, 0, 0]]
+    wymiay_pola_x = 4
+    wymiay_pola_y = 4
+    value_size = 130
+    odstep = 155
+    margin_x = 60
+elif rozmiar == 5:
+    pole = [[0, 0, 0, 0,0], [0, 0, 0, 0,0], [0, 0, 0, 0,0],[0,0 , 0, 0, 0],[0,0 , 0, 0, 0]]
+    wymiay_pola_x = 5
+    wymiay_pola_y = 5
+    value_size = 100
+    odstep = 120
+    margin_x = 70
+
 
 wynikk = 0
 
 
 def rysuj():
 
+    global font_size
     obraz.fill((255, 255, 255))
 
     prostokott = pygame.Rect(200, 40, 400, 40)
@@ -42,8 +63,8 @@ def rysuj():
 
     for i in range(wymiay_pola_x):
         for j in range(wymiay_pola_y):
-            x = 80 + i * 200
-            y = 120 + j * 200
+            x = margin_x + i * odstep
+            y = 120 + j * odstep
             komorka = pole[i][j]
 
             if komorka == 0:
@@ -57,10 +78,17 @@ def rysuj():
                 b = 255 - 17 * a
                 k = (r,g,b)
 
-            pygame.draw.rect(obraz, k, pygame.Rect(x, y, 160, 160))
-            tekst = pygame.font.SysFont('Arial', 80).render(str(komorka), True, (0, 0, 0))
-            tekst2 = tekst.get_rect(center=(x + 160 / 2, y + 160 / 2))
-            obraz.blit(tekst, tekst2)
+            pygame.draw.rect(obraz, k, pygame.Rect(x, y, value_size, value_size),border_radius=10)
+            if komorka != 0:
+                if rozmiar == 3:
+                    font_size = 80
+                elif rozmiar == 4:
+                    font_size = 60
+                elif rozmiar == 5:
+                    font_size = 40
+                tekst = pygame.font.SysFont('Arial', font_size).render(str(komorka), True, (0, 0, 0))
+                tekst2 = tekst.get_rect(center=(x + value_size / 2, y + value_size / 2))
+                obraz.blit(tekst, tekst2)
 
 
 def wstaw():
@@ -177,9 +205,13 @@ def ruch_dol():
 
 def wynik():
    koniec = True
+   warstwa = pygame.Surface((720, 720))
+   warstwa.set_alpha(50)
+   warstwa.fill((50, 50, 50))
    while koniec:
-       obraz.fill((100,100,100))
 
+
+       obraz.blit(warstwa, (0,0))
        fontObj = pygame.font.SysFont("Arial", 40)
        tekst1 = fontObj.render("Przegrana", True, (255,0,0))
        tekst11 = tekst1.get_rect(center = (360,250))
@@ -208,7 +240,13 @@ def wynik():
 
 def reset():
     global pole
-    pole = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    if rozmiar == 3:
+        pole = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    elif rozmiar == 4:
+        pole = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0],[0, 0, 0, 0]]
+    elif rozmiar == 5:
+        pole = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+
     wynikk = 0
     wstaw()
 
