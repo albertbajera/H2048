@@ -14,7 +14,7 @@ def wyswietl_menu(obraz, wymiary_okna):
     czcionka_autor = pygame.font.SysFont('Arial', 20, bold=True, italic=True)
 
 
-    tytul = czcionka_tytul.render("Witaj w 2048", True, (255, 255, 0))
+    tytul = czcionka_tytul.render("Witaj w Hybrid 2048", True, (255, 255, 0))
     autor = czcionka_autor.render("Autor: Albert Bajera", True, (255, 255, 0))
     tekst_3x3 = czcionka.render("3x3", True, (255, 255, 0))
     tekst_4x4 = czcionka.render("4x4", True, (255, 255, 0))
