@@ -55,7 +55,7 @@ def wyswietl_menu(obraz, wymiary_okna):
         obraz.fill((200, 200, 200))
 
 
-        if camera == True:
+        if camera:
             camera_kolor = (0,100,0)
             tekst_camera = czcionka.render("Gesty", True, (255, 255, 0))
         else:
@@ -105,7 +105,7 @@ def wyswietl_menu(obraz, wymiary_okna):
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if przycisk_graj.collidepoint(event.pos):
-                    dzialanie = False
+
                     return rozmiar, camera
                 if przycisk_3x3.collidepoint(event.pos):
                     rozmiar = 3
@@ -119,3 +119,4 @@ def wyswietl_menu(obraz, wymiary_okna):
             if event.type == pygame.KEYDOWN and event.key == pygame.K_q:
                 pygame.quit()
                 sys.exit()
+    return None

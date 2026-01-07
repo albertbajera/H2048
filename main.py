@@ -7,13 +7,13 @@ from menu import wyswietl_menu
 
 
 
-def wczytaj_rekord(rozmiar):
-    nazwa = f"rekord{rozmiar}x{rozmiar}.txt"
+def wczytaj_rekord(size):
+    nazwa = f"rekord{size}x{size}.txt"
     with open(nazwa,"r") as f:
         return int(f.read())
 
-def zapisz_rekord(rozmiar, nowy_rekord):
-    nazwa = f"rekord{rozmiar}x{rozmiar}.txt"
+def zapisz_rekord(size, nowy_rekord):
+    nazwa = f"rekord{size}x{size}.txt"
     with open(nazwa,"w") as f:
         f.write(str(nowy_rekord))
 
@@ -260,6 +260,7 @@ while program:
                         koniec = False
                     if przycisk_menu.collidepoint(event.pos):
                         return "menu"
+        return None
 
 
     def reset():
@@ -273,6 +274,7 @@ while program:
 
         wynikk = 0
         wstaw()
+
 
 
     dziala = True
@@ -307,18 +309,7 @@ while program:
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
                 ruch_prawo()
-                wynikk += 1
-                if wynikk > rekord:
-                    rekord = wynikk
-                    zapisz_rekord(rozmiar, rekord)
-                if not wstaw():
-                    result = wynik()
 
-                    if result == "menu":
-                        dziala = False
-                        if proces_camera:
-                            proces_camera.terminate()
-                    wynikk = 0
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
                 ruch_gora()
