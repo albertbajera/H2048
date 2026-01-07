@@ -309,6 +309,17 @@ while program:
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
                 ruch_prawo()
+                wynikk += 1
+                if wynikk > rekord:
+                    rekord = wynikk
+                    zapisz_rekord(rozmiar, rekord)
+                if not wstaw():
+                    result = wynik()
+                    if result == "menu":
+                        dziala = False
+                        if proces_camera:
+                            proces_camera.terminate()
+                    wynikk = 0
 
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
