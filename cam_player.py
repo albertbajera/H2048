@@ -43,8 +43,8 @@ while True:
 
 
     punkty = sledzenie.process(klatka2)
-    if punkty.multi_face_landmarks:
-        twarz = punkty.multi_face_landmarks[0]
+    if punkty.multi_face_landmarks: # noqa specjalny komentarz do wylaczenia ostrzezenia bo mediapipe zraca typ ktorego nie rozpozanaje pycharm
+        twarz = punkty.multi_face_landmarks[0] # noqa specjalny komentarz do wylaczenia ostrzezenia bo mediapipe zraca typ ktorego nie rozpozanaje pycharm
         nos = twarz.landmark[1] #1 to pkt na nosie
 
 
