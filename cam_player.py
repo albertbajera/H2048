@@ -73,14 +73,13 @@ while True:
                 ostatni_ruch_tekst = kierunek
                 wyswietlanie_licznik = 20
                 print(f"KIERUNEK: {kierunek}, PEWNOSC: {pewnosc}")
-                match kierunek:
-                    case "dol":
+                if kierunek ==  "dol":
                         pyautogui.press('down')
-                    case "gora":
+                if kierunek == "gora":
                         pyautogui.press('up')
-                    case "lewo":
+                if kierunek == "lewo":
                         pyautogui.press('left')
-                    case "prawo":
+                if kierunek == "prawo":
                         pyautogui.press('right')
 
                 coldown = 20
