@@ -12,7 +12,8 @@ Rozgrywka:
 https://github.com/user-attachments/assets/9f292ff8-862b-4128-990f-654fa26f924a
 
 Trening sieci neuronowej - zmiana wspólrzędnych połozenia nosa przez ostatnie 20 klatek zostanie zapisana do liku CSV:
-https://github.com/user-attachments/assets/1f7ca82d-b851-4c11-b12b-1dee54e693e1
+https://github.com/user-attachments/assets/c8287b3f-4183-4c6b-a213-2969441d5019
+
 
 
 
